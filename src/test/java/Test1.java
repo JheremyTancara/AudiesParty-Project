@@ -10,23 +10,21 @@ public class Test1 {
   void testCase1() {
     AudiesParty audie = new AudiesParty("input1.txt");
     int x = 7, k = 2;
-    String expectedGuests = "Cube Judy Kitt P X";
-    String guests = audie.getNodesAboveWtString(x);
-    assertEquals(expectedGuests, guests);
 
-    String expectedGroups =
+    String guests = audie.getNodesAboveWtString(x);
+    assertEquals("Cube Judy Kitt P X", guests);
+
+    String expected = // Expected Result
             """
             P Kitt Judy Cube
             X""";
     String groups = audie.getGroupsOf(k);
-    assertEquals(expectedGroups, groups);
+    assertEquals(expected, groups);
 
-    String expectedStrongestRelation = "Group with strongest friendly relationship: P Kitt Judy Cube";
-    String strongestRelation = audie.getSrg();
-    assertEquals(expectedStrongestRelation, strongestRelation);
+    String strongestRelation = audie.calculateSrg();
+    assertEquals("Group with strongest friendly relationship: P Kitt Judy Cube", strongestRelation);
 
-    String expectedWeakestRelation = "Group with least friendly relationship: P Kitt Judy Cube";
-    String weakestRelation = audie.getWrg();
-    assertEquals(expectedWeakestRelation, weakestRelation);
+    String weakestRelation = audie.calculateWrg();
+    assertEquals("Group with least friendly relationship: P Kitt Judy Cube", weakestRelation);
   }
 }
