@@ -9,75 +9,69 @@ public class Test2 {
   void testCase1() {
     AudiesParty audie = new AudiesParty("input2.txt");
     int x = 10, k = 4;
-    String expectedGuests = "A B C M N R X";
-    String guests = audie.getNodesAboveWtString(x);
-    assertEquals(expectedGuests, guests);
 
-    String expectedGroups =
+    String guests = audie.getNodesAboveWtString(x);
+    assertEquals("A B C M N R X", guests);
+
+    String expected =
             """
             B A
             R C M
             X
             N""";
     String groups = audie.getGroupsOf(k);
-    assertEquals(expectedGroups, groups);
+    assertEquals(expected, groups);
 
-    String expectedStrongestRelation = "Group with strongest friendly relationship: R C M";
-    String strongestRelation = audie.getSrg();
-    assertEquals(expectedStrongestRelation, strongestRelation);
+    String strRelation = audie.calculateSrg();
+    assertEquals("Group with strongest friendly relationship: R C M", strRelation);
 
-    String expectedWeakestRelation = "Group with least friendly relationship: B A";
-    String weakestRelation = audie.getWrg();
-    assertEquals(expectedWeakestRelation, weakestRelation);
+    String wkRelation = audie.calculateWrg();
+    assertEquals("Group with least friendly relationship: B A", wkRelation);
   }
 
   @Test
   void testCase2() {
     AudiesParty audie = new AudiesParty("input2.txt");
     int x =10, k = 3;
-    String expectedGuests = "A B C M N R X";
-    String guests = audie.getNodesAboveWtString(x);
-    assertEquals(expectedGuests, guests);
 
-    String expectedGroups =
+    String guests = audie.getNodesAboveWtString(x);
+    assertEquals("A B C M N R X", guests);
+
+    String expected =
             """
             B A
             R C M N
             X""";
     String groups = audie.getGroupsOf(k);
-    assertEquals(expectedGroups, groups);
+    assertEquals(expected, groups);
 
-    String expectedStrongestRelation = "Group with strongest friendly relationship: R C M N";
-    String strongestRelation = audie.getSrg();
-    assertEquals(expectedStrongestRelation, strongestRelation);
+    String strRelation = audie.calculateSrg();
+    assertEquals("Group with strongest friendly relationship: R C M N", strRelation);
 
-    String expectedWeakestRelation = "Group with least friendly relationship: R C M N";
-    String weakestRelation = audie.getWrg();
-    assertEquals(expectedWeakestRelation, weakestRelation);
+    String wkRelation = audie.calculateWrg();
+    assertEquals("Group with least friendly relationship: R C M N", wkRelation);
   }
 
   @Test
   void testCase3() {
     AudiesParty audie = new AudiesParty("input2.txt");
     int x = 14, k = 3;
-    String expectedGuests = "C M R";
+    
     String guests = audie.getNodesAboveWtString(x);
-    assertEquals(expectedGuests, guests);
+    assertEquals("C M R", guests);
 
-    String expectedGroups =
+    String expected =
             """
             R
             C
             M""";
     String groups = audie.getGroupsOf(k);
-    assertEquals(expectedGroups, groups);
+    assertEquals(expected, groups);
 
-    String expectedStrongestRelation = "Group with strongest friendly relationship: None";
-    String strongestRelation = audie.getSrg();
-    assertEquals(expectedStrongestRelation, strongestRelation);
+    String strRelation = audie.calculateSrg();
+    assertEquals("Group with strongest friendly relationship: None", strRelation);
 
-    String expectedWeakestRelation = "Group with least friendly relationship: None";
-    String weakestRelation = audie.getWrg();
-    assertEquals(expectedWeakestRelation, weakestRelation);
+    String wkRelation = audie.calculateWrg();
+    assertEquals("Group with least friendly relationship: None", wkRelation);
   }
 }

@@ -48,19 +48,20 @@ public class AudiesParty {
   }
 
   public String getNodesAboveWtString(int minimumWt) {
+    String rlt = "";
     Set<Node<String>> nodes = getNodesAboveWt(minimumWt);
-    StringBuilder result = new StringBuilder();
-    //result.append("Guests:\n");
 
     Iterator<Node<String>> iterator = nodes.iterator();
     while (iterator.hasNext()) {
       Node<String> node = iterator.next();
-      result.append(node).append(" ");
+      rlt += node + " ";
     }
-    if (result.length() > 0) {
-      result.deleteCharAt(result.length() - 1);
+    if (rlt.length() > 0) {
+      if (!rlt.isEmpty()) {
+        rlt = rlt.substring(0, rlt.length() - 1);
+      }
     }
-    return result.toString();
+    return rlt;
   }
 
   private Map<Node<String>, List<Node<String>>> initializeGroupsByNode() {
@@ -90,84 +91,103 @@ public class AudiesParty {
     if (groups.size() == groupsQuantity) {
       return groups;
     }
-    Map<Node<String>, Node<String>> nodes = getNodes();
-    Set<Edge<String>> visitedEdges = new HashSet<>();
-    boolean firstRelation = true;
-    for (Edge<String> edge : this.graph.getAllEgs()) {
-      Node<String> source = edge.getStartNode();
-      Node<String> destination = edge.getEndNode();
-      if (visitedEdges.contains(edge) || nodes.get(source) == nodes.get(destination)) {
-        continue;
-      }
-      Edge<String> imageEdge = new Edge<>(edge.getEndNode(), edge.getStartNode(), edge.getEdgeWt());
-      visitedEdges.add(edge);
-      visitedEdges.add(imageEdge);
-      Node<String> prevDestination = nodes.get(destination);
-      for (Node<String> node : groups.get(prevDestination)) {
-        nodes.put(node, nodes.get(source));
-        groups.get(nodes.get(source)).add(node);
-      }
-      groups.remove(prevDestination);
-      if (firstRelation) {
-        this.srg = groups.get(nodes.get(source));
-        firstRelation = false;
-      }
+
+    Map<Node<String>, Node<String>> nds = getNodes();
+    Set<Edge<String>> visitedEgs = new HashSet<>();
+    boolean relation = true;
+
+    for (Edge<String> eg : this.graph.getAllEgs()) {
       if (groups.size() == groupsQuantity) {
-        this.wrg = groups.get(nodes.get(source));
         break;
       }
+
+      Node<String> start = eg.getStartNode();
+      Node<String> end = eg.getEndNode();
+
+      if (visitedEgs.contains(eg) || nds.get(start) == nds.get(end)) {
+        continue;
+      }
+
+      visitedEgs.add(eg);
+      visitedEgs.add(new Edge<>(end, start, eg.getEdgeWt()));
+
+      Node<String> ndEnd = nds.get(end);
+      List<Node<String>> startGroup = groups.getOrDefault(nds.get(start), new ArrayList<>());
+
+      for (Node<String> nd : groups.getOrDefault(ndEnd, Collections.emptyList())) {
+        nds.put(nd, nds.get(start));
+        startGroup.add(nd);
+      }
+
+      groups.put(nds.get(start), startGroup);
+      groups.remove(ndEnd);
+
+      if (relation) {
+        this.srg = startGroup;
+        relation = false;
+      }
+
+      if (groups.size() == groupsQuantity) {
+        this.wrg = startGroup;
+      }
     }
+
     return groups;
   }
 
   public String getGroupsOf(int groupsQuantity) {
-    StringBuilder result = new StringBuilder();
+    String groupsRlt = "";
     Map<Node<String>, List<Node<String>>> groups = getGroupsOfAlgorithm(groupsQuantity);
 
     if (groups.size() != groupsQuantity) {
       this.srg = new LinkedList<>();
       this.wrg = new LinkedList<>();
-      return result.append("It is not possible").toString();
+      groupsRlt += "It is not possible";
+      return groupsRlt;
     }
 
     for (Map.Entry<Node<String>, List<Node<String>>> entry : groups.entrySet()) {
       List<Node<String>> nodeList = entry.getValue();
       for (Node<String> node : nodeList) {
-        result.append(node).append(" ");
+        groupsRlt += node + " ";
       }
-      result.deleteCharAt(result.length() - 1);
-      result.append("\n");
+      if (!groupsRlt.isEmpty()) {
+        groupsRlt = groupsRlt.substring(0, groupsRlt.length() - 1);
+      }
+      groupsRlt += "\n";
     }
 
-    result.deleteCharAt(result.length() - 1);
-    return result.toString();
+    if (!groupsRlt.isEmpty()) {
+      groupsRlt = groupsRlt.substring(0, groupsRlt.length() - 1);
+    }
+    return groupsRlt;
   }
 
-  public String getSrg() {
-    StringBuilder result = new StringBuilder();
-    result.append("Group with strongest friendly relationship:");
-
+  public String calculateSrg() {
+    String srgRelation = "";
+    srgRelation += "Group with strongest friendly relationship:";
     if (this.srg.isEmpty()) {
-      return result.append(" None").toString();
+      srgRelation += " None";
+      return srgRelation;
     }
 
     for (Node<String> node : this.srg) {
-      result.append(" ").append(node);
+      srgRelation += " " + node;
     }
-
-    return result.toString();
+    return srgRelation;
   }
 
-  public String getWrg() {
-    StringBuilder result = new StringBuilder();
-    result.append("Group with least friendly relationship: ");
+  public String calculateWrg() {
+    String wrgRelation = "";
+    wrgRelation += "Group with least friendly relationship:";
+
     if (this.wrg.isEmpty()) {
-      return result.append("None").toString();
+      wrgRelation += " None";
+      return wrgRelation;
     }
     for (Node<String> node : this.wrg) {
-      result.append(node).append(" ");
+      wrgRelation += " " + node;
     }
-    result.deleteCharAt(result.length() - 1);
-    return result.toString();
+    return wrgRelation;
   }
 }

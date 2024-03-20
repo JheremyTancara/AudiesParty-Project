@@ -15,9 +15,7 @@ import java.util.TreeMap;
 public class Prim<T extends Comparable<T>> {
 
   private final Graph<T> minimumSpanningTree;
-
   private Map<Node<T>, Node<T>> parent;
-
   private Integer totalCost;
 
   public Prim(Graph<T> graph) {
