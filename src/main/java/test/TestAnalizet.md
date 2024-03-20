@@ -14,8 +14,7 @@ El algoritmo de Rabin-Karp tiene una complejidad de tiempo promedio de O(n+m), d
 
 ********************************************************************************************************
 Q3. Given a P, what is the highest value we can get in the prefix function and why?
-El valor de la P que podria dar cuando se busca el elemento mas grande de una funcion es 1, devido a que el prefijo verifica los principales elementos.
-
+Para La pregunta el valor más alto que podemos obtener en la función de prefijo para una cadena P es n - 1, donde n es la longitud de la cadena P. Esto se debe a que en el caso de la función de prefijo, estamos comparando un prefijo de la cadena con un sufijo, y el valor máximo que podemos obtener es cuando el prefijo es igual al sufijo, pero excluyendo la cadena completa.
 
 ********************************************************************************************************
 Q4. Coco's theme party
