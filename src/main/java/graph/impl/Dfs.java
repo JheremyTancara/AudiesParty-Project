@@ -13,7 +13,6 @@ import java.util.Set;
 public class Dfs<T extends Comparable<T>> {
 
   private final Set<Node<T>> visitors;
-
   private Graph<T> graph;
 
   public Dfs(Graph<T> graph) {
